@@ -1,103 +1,106 @@
-import Image from "next/image";
+'use client'
+import { useState, useEffect, use } from 'react'
+import Image from 'next/image'
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    const [db, setDb] = useState({});
+    const [currentCategory, setCurrentCategory] = useState("");
+    const [currentDish, setCurrectDish] = useState("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch('/food_db.json'); 
+            const jsonData = await response.json();
+            console.log(jsonData);
+            setDb(jsonData);
+            const first = Object.keys(jsonData)[0]
+            setCurrentCategory(first)
+            setCurrectDish(Object.keys(jsonData[first])[0])
+        }
+        fetchData();
+    }, []);
+
+    const renderEntries = (category, dish) => {
+        const dishes = db[category] || {}
+        const entries = dishes[dish] || [];
+        return entries.map((item) => {
+            return <div>{`${item.name} - ${item.location} --- ${item.note}`}</div>
+        })
+    }
+
+    const renderDishes = (category) => {
+        const dishes = db[category] || {};
+        return  Object.entries(dishes).map((item) => {
+            return (
+                <div 
+                    key={item[0]}
+                    className='h-10 text-center rounded-2xl mr-2 p-3 bg-[#DD5341] text-xs text-[#ffffff] font-normal hover:bg-[#FACA78] hover:text-[#68c7c1]'
+                    onClick={() => setCurrectDish(item[0])}
+                >
+                    {item[0]}
+                </div>
+            )
+        })
+    };
+
+    const renderCategories = (db) => {
+        return Object.entries(db).map((item) => {
+            return (
+                <div 
+                    key={item[0]}
+                    className='w-50 p-3 bg-[#DD5341] text-[#ffffff] font-normal mb-2 hover:bg-[#FACA78] hover:text-[#68c7c1]' 
+                    onClick={() => {
+                        setCurrentCategory(item[0])
+                        setCurrectDish(Object.keys(item[1])[0])
+                    }}
+                >
+                    {item[0]}
+                </div>
+            )
+        })
+    };
+
+    return (
+        <div>
+            <div className='flex justify-start pb-8 pt-12 pl-24 pr-24 gap-10 bg-[#DD5341] w-screen h-20" border-[#764838] border-b-12'>
+                <Image src="/icon.jpg" width={200} height={200} alt="website-logo"/>
+                <div className='flex flex-col'>
+                    <h1 className='font-serif text-8xl text-[#FACA78]'>
+                        Anh Nguyen
+                    </h1>
+                    <h1 className='font-serif text-8xl text-[#FACA78]'>
+                        Food Review
+                    </h1>
+                </div>
+                <div className='flex flex-col justify-end gap-4'>
+                    <div className=''>
+                        <div className='rounded-full w-8 h-8 border-2 border-white bg-[#68c7c1]'></div>
+                        <div className='rounded-full w-8 h-8 border-2 border-white bg-[#764838]'></div>
+                        <div className='rounded-full w-8 h-8 border-2 border-white bg-[#faca78]'></div>
+                    </div>
+                    <h2 className='text-white text-7xl font-medium font-italianno'>- ăn thủ đô</h2>
+                </div>
+                
+            </div> 
+            <div className='flex mt-8 mb-8, ml-24 mr-24 gap-10'>
+                <div className='flex flex-col'>
+                    {/* <div 
+                        className='w-50 p-3 bg-[#DD5341] text-[#ffffff] font-normal mb-2 hover:bg-[#FACA78] hover:text-[#68c7c1]' 
+                        onClick={() => setCurrentCategory(item[0])}
+                    > */}
+                    {renderCategories(db)}
+                </div>
+                <div className='flex-col'>
+                    <div className='flex'>
+                        {renderDishes(currentCategory)} 
+
+                    </div>
+                    <div>
+                        {renderEntries(currentCategory, currentDish)}
+                    </div>
+                </div>
+                
+            </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
-}
+    )
+};
