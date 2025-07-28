@@ -43,7 +43,7 @@ export default function Home() {
             return (
                 <div 
                     key={item[0]}
-                    className={`h-10 text-center rounded-2xl mr-2 p-3 cursor-pointer shadow-[#764838] shadow-sm text-xs font-normal 
+                    className={`h-10 text-center flex-shrink-0 rounded-2xl mr-2 p-3 cursor-pointer shadow-[#764838] shadow-sm text-xs font-normal 
                         hover:bg-[#FACA78] hover:text-[#68c7c1] 
                         ${currentDish == item[0] ? 'bg-[#FACA78]' : 'bg-[#DD5341]'}
                         ${currentDish == item[0] ? 'text-[#68c7c1] ' : 'text-[#ffffff]'}`}
@@ -77,7 +77,7 @@ export default function Home() {
 
     return (
         <div>
-            <div className='flex justify-start pb-8 pt-12 pl-24 pr-24 gap-10 bg-[#DD5341] w-screen h-20" border-[#764838] border-b-12'>
+            <div className='flex justify-start pb-8 pt-12 pl-24 pr-24 gap-10 bg-[#DD5341] w-max sm:w-screen md:w-screen lg:w-screen h-20" border-[#764838] border-b-12'>
                 <Image src="/icon.jpg" width={200} height={200} alt="website-logo"/>
                 <div className='flex flex-col'>
                     <h1 className='font-serif text-8xl text-[#FACA78]'>
@@ -102,7 +102,7 @@ export default function Home() {
                     {renderCategories(db)}
                 </div>
                 <div className='flex-col'>
-                    <div className='flex'>
+                    <div className='flex flex-wrap gap-y-2'>
                         {renderDishes(currentCategory)} 
 
                     </div>
