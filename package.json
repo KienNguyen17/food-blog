@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "npm run build",
-    "deploy": "touch ./out/.nojekyll && gh-pages -d out -t true"
+    "predeploy": "npm run build && touch ./out/.nojekyll",
+    "deploy": "gh-pages -d out --dotfiles"
   },
   "dependencies": {
     "@next/font": "^14.2.15",
