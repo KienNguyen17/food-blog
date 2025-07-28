@@ -27,7 +27,7 @@ export default function Home() {
             return (
                 <div 
                     key={`${item.name} - ${item.location}`}
-                    className='mt-4 shadow-[#764838] shadow-md p-3 w-2xs'
+                    className='mt-4 shadow-[#764838] shadow-md p-3 w-60'
                 >
                     <p className='text-2xl text-extrabold font-serif text-[#764838]'>{item.name}</p>
                     <p className=''>{item.location}</p>
@@ -43,7 +43,7 @@ export default function Home() {
             return (
                 <div 
                     key={item[0]}
-                    className={`h-10 text-center flex-shrink-0 rounded-2xl mr-2 p-3 cursor-pointer shadow-[#764838] shadow-sm text-xs font-normal 
+                    className={`h-10 text-center rounded-2xl mr-2 p-3 cursor-pointer shadow-[#764838] shadow-sm text-xs font-normal 
                         hover:bg-[#FACA78] hover:text-[#68c7c1] 
                         ${currentDish == item[0] ? 'bg-[#FACA78]' : 'bg-[#DD5341]'}
                         ${currentDish == item[0] ? 'text-[#68c7c1] ' : 'text-[#ffffff]'}`}
@@ -60,7 +60,7 @@ export default function Home() {
             return (
                 <div 
                     key={item[0]}
-                    className={`w-50 p-3 bg-[#DD5341] font-normal mb-2 cursor-pointer shadow-[#764838] shadow-md
+                    className={`sm:w-50 md:w-50 lg:w-50 p-3 bg-[#DD5341] text-sm mb-2 cursor-pointer shadow-[#764838] shadow-md
                         hover:bg-[#FACA78] hover:text-[#68c7c1] 
                         ${currentCategory == item[0] ? 'bg-[#FACA78]' : 'bg-[#DD5341]'}
                         ${currentCategory == item[0] ? 'text-[#68c7c1] ' : 'text-[#ffffff]'}`}
@@ -76,9 +76,12 @@ export default function Home() {
     };
 
     return (
-        <div>
-            <div className='flex justify-start pb-8 pt-12 pl-24 pr-24 gap-10 bg-[#DD5341] w-max sm:w-screen md:w-screen lg:w-screen h-20" border-[#764838] border-b-12'>
-                <Image src="/icon.jpg" width={200} height={200} alt="website-logo"/>
+        <div className=''>
+            <div className='flex justify-start flex-wrap pb-8 pt-12 pl-8 pr-8 sm:pl-24 md:pl-24 lg:pl-24 sm:pr-24 md:pr-24 lg:pr-24 gap-10 bg-[#DD5341] w-screen sm:w-screen md:w-screen lg:w-screen h-20" border-[#764838] border-b-12'>
+                <div className='max-w-xl'>
+                    <Image src="/icon.jpg" width={200} height={200} alt="website-logo" className='object-scale-down'/>
+                </div>
+
                 <div className='flex flex-col'>
                     <h1 className='font-serif text-8xl text-[#FACA78]'>
                         Anh Nguyen
@@ -87,7 +90,7 @@ export default function Home() {
                         Food Review
                     </h1>
                 </div>
-                <div className='flex flex-col justify-end gap-4'>
+                <div className='flex flex-row md:flex-col lg:flex-col justify-end gap-4'>
                     <div className=''>
                         <div className='rounded-full w-8 h-8 border-2 border-white bg-[#68c7c1]'></div>
                         <div className='rounded-full w-8 h-8 border-2 border-white bg-[#764838]'></div>
@@ -97,8 +100,8 @@ export default function Home() {
                 </div>
                 
             </div> 
-            <div className='flex mt-8 mb-8, ml-24 mr-24 gap-10'>
-                <div className='flex flex-col'>
+            <div className='flex mt-8 mb-8 pl-8 pr-8 sm:pl-24 md:pl-24 lg:pl-24 sm:pr-24 md:pr-24 lg:pr-24 gap-10'>
+                <div className='flex flex-col sm:flex-shrink-0 md:flex-shrink-0 lg:flex-shrink-0'>
                     {renderCategories(db)}
                 </div>
                 <div className='flex-col'>
