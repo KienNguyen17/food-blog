@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 export default function Home() {
@@ -24,7 +24,16 @@ export default function Home() {
         const dishes = db[category] || {}
         const entries = dishes[dish] || [];
         return entries.map((item) => {
-            return <div>{`${item.name} - ${item.location} --- ${item.note}`}</div>
+            return (
+                <div 
+                    key={`${item.name} - ${item.location}`}
+                    className='mt-4 shadow-[#764838] shadow-md p-3 w-2xs'
+                >
+                    <p className='text-2xl text-extrabold font-serif text-[#764838]'>{item.name}</p>
+                    <p className=''>{item.location}</p>
+                    <p className='text-gray-500 italic text-extralight'>{item.note}</p>
+                </div>
+            )
         })
     }
 
@@ -34,7 +43,10 @@ export default function Home() {
             return (
                 <div 
                     key={item[0]}
-                    className='h-10 text-center rounded-2xl mr-2 p-3 bg-[#DD5341] text-xs text-[#ffffff] font-normal hover:bg-[#FACA78] hover:text-[#68c7c1]'
+                    className={`h-10 text-center rounded-2xl mr-2 p-3 cursor-pointer shadow-[#764838] shadow-sm text-xs font-normal 
+                        hover:bg-[#FACA78] hover:text-[#68c7c1] 
+                        ${currentDish == item[0] ? 'bg-[#FACA78]' : 'bg-[#DD5341]'}
+                        ${currentDish == item[0] ? 'text-[#68c7c1] ' : 'text-[#ffffff]'}`}
                     onClick={() => setCurrectDish(item[0])}
                 >
                     {item[0]}
@@ -48,7 +60,10 @@ export default function Home() {
             return (
                 <div 
                     key={item[0]}
-                    className='w-50 p-3 bg-[#DD5341] text-[#ffffff] font-normal mb-2 hover:bg-[#FACA78] hover:text-[#68c7c1]' 
+                    className={`w-50 p-3 bg-[#DD5341] font-normal mb-2 cursor-pointer shadow-[#764838] shadow-md
+                        hover:bg-[#FACA78] hover:text-[#68c7c1] 
+                        ${currentCategory == item[0] ? 'bg-[#FACA78]' : 'bg-[#DD5341]'}
+                        ${currentCategory == item[0] ? 'text-[#68c7c1] ' : 'text-[#ffffff]'}`}
                     onClick={() => {
                         setCurrentCategory(item[0])
                         setCurrectDish(Object.keys(item[1])[0])
@@ -84,10 +99,6 @@ export default function Home() {
             </div> 
             <div className='flex mt-8 mb-8, ml-24 mr-24 gap-10'>
                 <div className='flex flex-col'>
-                    {/* <div 
-                        className='w-50 p-3 bg-[#DD5341] text-[#ffffff] font-normal mb-2 hover:bg-[#FACA78] hover:text-[#68c7c1]' 
-                        onClick={() => setCurrentCategory(item[0])}
-                    > */}
                     {renderCategories(db)}
                 </div>
                 <div className='flex-col'>
@@ -95,7 +106,7 @@ export default function Home() {
                         {renderDishes(currentCategory)} 
 
                     </div>
-                    <div>
+                    <div className='flex flex-wrap justify-start gap-x-10'>
                         {renderEntries(currentCategory, currentDish)}
                     </div>
                 </div>
