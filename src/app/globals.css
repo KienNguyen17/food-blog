@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Italianno&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Elsie:wght@400;900&family=Italianno&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-italianno: "Italianno", cursive;
+  --font-elsie:  "Elsie", serif;
 }
-
 
 
